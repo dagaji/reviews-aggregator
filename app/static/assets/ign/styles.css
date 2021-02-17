@@ -1,0 +1,10 @@
+svg.logo-ign{
+    width: 150px;
+    height: auto;
+    margin-top: 0px;
+}
+
+.review-ign .score-wrapper{
+    background-color: crimson;
+    color: honeydew;
+}

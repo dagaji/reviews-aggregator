@@ -1,0 +1,10 @@
+svg.logo-hobby{
+    width: 300px;
+    height: auto;
+    margin-top: 15px;
+}
+
+.review-hobby .score-wrapper{
+    background-color: rgb(32, 154, 224);
+    color: honeydew;
+}

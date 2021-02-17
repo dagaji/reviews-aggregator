@@ -1,0 +1,105 @@
+{% macro display_options(opts_name, opts_type, items, type) -%}
+
+<div class="dropdown pull-left">
+  <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown"
+    aria-haspopup="true" aria-expanded="true" name="{{opts_type}}">
+    {{opts_name}}
+    <span class="caret"></span>
+  </button>
+  <ul class="dropdown-menu checkbox-menu allow-focus" aria-labelledby="dropdownMenu1">
+    {% if items is mapping %}
+      {% for key, value in items.items() %}
+    <li>
+      <label>
+        <input type="{{type}}" autocomplete="off" name="{{key}}"> {{value}}
+      </label>
+    </li>
+      {% endfor %}
+    {% else %}
+      {% for value in items %}
+    <li>
+      <label>
+        <input type="{{type}}" autocomplete="off" name="{{value}}"> {{value}}
+      </label>
+    </li>
+      {% endfor %}
+    {% endif %}
+  </ul>
+</div>
+
+{%- endmacro %}
+
+<html>
+
+<head>
+  <title>Game Reviews</title>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+  {% for style_url in reviewers_styles %}
+  <link rel="stylesheet" href="{{ style_url }}">
+  {% endfor %}
+  <link href='https://fonts.googleapis.com/css?family=Oxygen:400,300,700' rel='stylesheet' type='text/css'>
+  <link href='https://fonts.googleapis.com/css?family=Lora' rel='stylesheet' type='text/css'>
+  <script>
+    const request_params = {{ request.args| tojson | safe}};
+    const request_url = "{{ url_for('list_reviews') }}";
+  </script>
+  <script src="{{ url_for('static', filename='js/ajax-utils.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/jquery-2.1.4.min.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+
+</head>
+
+<body>
+
+  <nav class="navbar navbar-inverse">
+    <div class="container">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar"
+          aria-expanded="false" aria-controls="navbar">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <div class="navbar-brand">
+          <a href="/index">
+            <h1>Game Reviews</h1>
+          </a>
+        </div>
+      </div>
+      <div id="navbar" class="navbar-collapse collapse">
+        <form class="navbar-form navbar-right">
+          <div class="form-group">
+            <input id="search-filter-text" type="text" placeholder="Search" class="form-control">
+          </div>
+          <button id="search-filter-btn" type="submit" class="btn btn-success">Search</button>
+        </form>
+      </div>
+      <!--/.navbar-collapse -->
+    </div>
+  </nav>
+
+  <div class="jumbotron">
+    <div class="container">
+      {{display_options("Genres", "genre", genres, type="checkbox")}}
+      {{display_options("Platforms", "platforms", platforms, type="checkbox")}}
+      {{display_options("Reviewers", "reviewer", reviewers, type="radio")}}
+      {{display_options("Posted date", "posted_date", dates_intervals, type="radio")}}
+      {{display_options("Sort by", "order", {"release_date":"Posted date", "score":"Score"}, type="radio")}}
+      <button id="filter-btn" class="btn btn-primary" type="button">Filter <span
+          class="glyphicon glyphicon-filter"></span></button>
+    </div>
+  </div>
+
+  <div class="container">
+    <div id="main-content"></div>
+  </div>
+
+</body>
+
+</html>

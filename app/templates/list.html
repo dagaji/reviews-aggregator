@@ -1,0 +1,28 @@
+
+{% for review in reviews %}
+<div class="review review-{{review.reviewer}}">
+  <div class="grid-top grid-left" style="text-align: center;">
+      <div class="score-wrapper"><span>{{review.score}}</span></div>
+  </div>
+
+  <div class="grid-top grid-right">
+      {{ reviewers_logos[review.reviewer] | safe}}
+  </div>
+  <div class="grid-botton grid-left">
+      <p><strong>Plataformas</strong>: {{review.platforms}}</p>
+      <p><strong>Géneros</strong>: {{review.genre}}</p>
+      <p><strong>Fecha de publicación</strong>: {{review.release_date}}</p>
+  </div>
+  <div class="grid-botton grid-right">
+      <h3><strong>{{review.title}}</strong></h3>
+      <h5>{{review.description}}</h5>
+  </div>
+</div>
+<div style="clear: both;"></div>
+{% endfor %}
+
+{% if has_next %}
+<div style="text-align: center;">
+  <button id="next_page" class="btn btn-primary btn-lg">Next page</button>
+</div>
+{% endif %}
